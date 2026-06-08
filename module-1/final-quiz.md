@@ -9,7 +9,7 @@ const quiz = {
       q: 'Що з цього правильне про cluster? (обери всі)',
       options: [
         'Cluster має унікальний genesis hash',
-        'Один agave-validator binary може join'нути будь-який cluster (mainnet/testnet/devnet/Alpenglow)',
+        'Один agave-validator binary може joinнути будь-який cluster (mainnet/testnet/devnet/Alpenglow)',
         'SOL у mainnet можна перевести у testnet через bridge',
         'Усі nodes у cluster мають однаковий software version'
       ],
@@ -95,7 +95,7 @@ const quiz = {
         'Validator не голосував > 128 slots на rooted slot',
         'Validator продовжує заробляти rewards поки delinquent',
         'Cluster автоматично slashes delinquent validators',
-        'Status може recover'итись коли validator catch up і resume voting'
+        'Status може recoverитись коли validator catch up і resume voting'
       ],
       correct: [0, 3],
       explanation: '#1 правильно — це Solana definition. #4 правильно — recoverable. #2 НЕПРАВИЛЬНО — нема rewards поки delinquent. #3 НЕПРАВИЛЬНО — Solana НЕ slashing для delinquency (на цей момент). Module 1.5.'
@@ -126,7 +126,7 @@ const quiz = {
     {
       type: 'explain',
       q: 'Поясни (своїми словами) як stake delegation activation працює через epoch boundaries.',
-      ideal: 'Стейк не активується мить'ю. Process:\n\n1. Ти запускаєш delegate-stake на slot X (середина epoch N)\n2. Stake переходить у status "activating" (= warmup) до кінця epoch N\n3. На boundary epoch N → N+1 cluster робить snapshot всіх stakes — твій stake потрапляє у новий active stake set\n4. На slot 0 epoch N+1 твій stake "active" — validator починає включати твою вагу у voting/leader schedule\n5. У кінці epoch N+1 ти отримуєш свою частку rewards proportionally\n\nЧому boundary гранична: consensus працює з одним stake snapshot per epoch (з міркувань determinism). Mid-epoch changes ламали б leader schedule і vote tallying. Тому всі stake operations effects відкладені до next boundary.\n\nSame logic for deactivation: ти undelegate-stake — stake "deactivating" до кінця epoch — inactive у наступному.',
+      ideal: 'Стейк не активується миттю. Process:\n\n1. Ти запускаєш delegate-stake на slot X (середина epoch N)\n2. Stake переходить у status "activating" (= warmup) до кінця epoch N\n3. На boundary epoch N → N+1 cluster робить snapshot всіх stakes — твій stake потрапляє у новий active stake set\n4. На slot 0 epoch N+1 твій stake "active" — validator починає включати твою вагу у voting/leader schedule\n5. У кінці epoch N+1 ти отримуєш свою частку rewards proportionally\n\nЧому boundary гранична: consensus працює з одним stake snapshot per epoch (з міркувань determinism). Mid-epoch changes ламали б leader schedule і vote tallying. Тому всі stake operations effects відкладені до next boundary.\n\nSame logic for deactivation: ти undelegate-stake — stake "deactivating" до кінця epoch — inactive у наступному.',
       explanation: 'Ключове: boundary-aligned activation, snapshot-based consensus. Якщо описала activating → boundary → active sequence — повна відповідь. Module 1.2.'
     },
     {
@@ -136,7 +136,7 @@ const quiz = {
         'Hardware повільний — не встиг compile block за 400ms',
         'Network лагав, shreds не доcтачились до cluster',
         'Інший validator забрав slot (race)',
-        'Validator's software crashed mid-slot'
+        'Validators software crashed mid-slot'
       ],
       correct: [0, 1, 3],
       explanation: 'Hardware, network, software crash — real causes. Race не може бути — slot fixed для одного leader, no override. Module 1.4.'

@@ -30,7 +30,7 @@ const quiz = {
     {
       type: 'scenario',
       q: 'На mainnet тобі сказали "почекай 1 epoch перш ніж stake активний". Поясни що це означає у часовому вимірі — скільки часу чекати, чому саме 1 epoch, що відбудеться в кінці.',
-      ideal: 'Один epoch на mainnet = ~2 дні (~432000 slots × 400ms = 172800 сек = 48 годин).\n\nЧому 1 epoch: stake delegation активується ТІЛЬКИ на boundary епохи. Якщо ти delegateиш на slot середини epoch N — твій stake додається у "activating" state, чекає кінця epoch N, і стає active на старті epoch N+1.\n\nЦе механіка warmup. Solana має це обмеження щоб уникнути в межах epoch фрагментації stake (consensus працює з єдиним stake snapshot per epoch).\n\nЩо відбудеться в кінці: на slot 0 наступного epoch твій stake потрапляє в active set, validator починає включати твою stake вагу у голосуванні, ти починаєш заробляти rewards (якщо validator vote'ить).',
+      ideal: 'Один epoch на mainnet = ~2 дні (~432000 slots × 400ms = 172800 сек = 48 годин).\n\nЧому 1 epoch: stake delegation активується ТІЛЬКИ на boundary епохи. Якщо ти delegateиш на slot середини epoch N — твій stake додається у "activating" state, чекає кінця epoch N, і стає active на старті epoch N+1.\n\nЦе механіка warmup. Solana має це обмеження щоб уникнути в межах epoch фрагментації stake (consensus працює з єдиним stake snapshot per epoch).\n\nЩо відбудеться в кінці: на slot 0 наступного epoch твій stake потрапляє в active set, validator починає включати твою stake вагу у голосуванні, ти починаєш заробляти rewards (якщо validator voteить).',
       explanation: 'Ключове: epoch boundaries це consensus moment коли stake snapshots оновлюються. Якщо описала ~2 дні + чому boundary важлива — повна відповідь.'
     }
   ]

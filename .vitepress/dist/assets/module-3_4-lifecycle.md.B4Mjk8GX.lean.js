@@ -1,0 +1,13 @@
+import{C as t,o as n,c as l,a5 as e,E as r}from"./chunks/framework.CW28V7p_.js";const h=JSON.parse('{"title":"4. TX lifecycle: client → RPC → leader → finality","description":"","frontmatter":{},"headers":[],"relativePath":"module-3/4-lifecycle.md","filePath":"module-3/4-lifecycle.md","lastUpdated":1780937944000}'),o={name:"module-3/4-lifecycle.md"},k=Object.assign(o,{setup(d){const a={id:"m3-4-lifecycle",title:"🧠 Mini-check: TX lifecycle",intro:"3 питання — end-to-end TX flow.",questions:[{type:"order",q:"Постав steps TX lifecycle у правильному порядку (client → finality):",items:["Client SDK signs TX з private key","TX broadcast через RPC → forwarded до current leader через TPU","Block з TX broadcast через turbine до cluster","Cluster votes за block, ≥2/3 stake → Confirmed","Leader processes TX, includes у in-progress block","31+ vote credits → Finalized (irreversible)"],correctOrder:[0,1,4,2,3,5],explanation:"Sign → submit to RPC → leader processes + includes → broadcast block → cluster votes (Confirmed) → 31+ credits (Finalized). Module 3.4."},{type:"mcq",q:`Що з цього найвірогідніше може спричинити "TX not found" status (TX submitted але не з'явилась on chain)?`,options:["TX blockhash expired (більше ніж 150 slots старий, ~60 сек)","Priority fee занадто low — leader skipped у favor вищих bids","Network packet loss — TX не дійшла до leader","TX size exceeded 1232 bytes — rejected by RPC"],correct:[0,1,2,3],explanation:"Усі 4 — real reasons чому TX може зникнути. Найчастіше: expired blockhash або low priority у congestion. Module 3.4."},{type:"compare",q:"У чому різниця між Confirmed і Finalized status TX?",ideal:`Confirmed: TX included у block який got ≥2/3 stake voting за нього. Це probabilistic finality — extremely unlikely бути reverted, але теоретично possible якщо cluster reorgs (rare).
+
+Finalized: TX у block який got ≥31 vote credits (full lockout fіналізація). Це cryptographic finality — guaranteed never reverted без consensus breach (would require >2/3 stake to act malicious).
+
+Часові аспекти на mainnet:
+- Confirmed: typically ~1-3 секунди після submission
+- Finalized: typically ~12-30 секунд (~30 slots × 400ms)
+
+Коли яке matter:
+- Confirmed достатньо для UX ("transaction successful!") у більшості apps
+- Finalized потрібен для high-value operations: cross-chain bridges, exchange deposits, real money — recover impossible якщо reverted
+
+Wallet/exchange policies: Phantom shows Confirmed checkmark, exchanges often чекають Finalized перш ніж credit deposit.`,explanation:"Confirmed = probabilistic, Finalized = guaranteed. Use case differs. Module 3.4."}]};return(p,s)=>{const i=t("Quiz");return n(),l("div",null,[s[0]||(s[0]=e("",51)),r(i,{data:a}),s[1]||(s[1]=e("",6))])}}});export{h as __pageData,k as default};

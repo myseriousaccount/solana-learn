@@ -100,7 +100,7 @@ const quiz = {
       options: [
         'Account містить compiled BPF bytecode і може бути викликаний як program',
         'Account може receive incoming transfers',
-        'Account create'ний адміністратором cluster',
+        'Account createний адміністратором cluster',
         'Account є native (built into validator)'
       ],
       correct: [0],

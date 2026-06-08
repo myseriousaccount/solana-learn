@@ -18,7 +18,7 @@ const quiz = {
     },
     {
       type: 'explain',
-      q: 'Чому TPU forwards TXs до next leader замість process'ити сам?',
+      q: 'Чому TPU forwards TXs до next leader замість processити сам?',
       ideal: 'Тільки current leader може include TXs у block. Якщо random validator receives TX і це not currently leader — нема point holding TX (заfdamn doesn\'t help include).\n\nForward механіка:\n1. Validator receives TX через TPU\n2. Перевіряє leader schedule — хто current/upcoming leader\n3. Forward TX до leader\'s TPU\n4. Leader includes у його block\n\nЦе дає клієнтам can submit TX до any validator (не треба знати поточного leader) — TX eventually reaches leader.\n\nЕфективно: RPC nodes typically forward до 2-3 upcoming leaders щоб maximize chance включення.',
       explanation: 'Module 6.1.'
     }

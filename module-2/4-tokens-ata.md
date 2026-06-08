@@ -22,7 +22,7 @@ const quiz = {
       options: [
         'ATA address derives deterministically з (owner_wallet, token_mint)',
         'Кожна пара (wallet, mint) має тільки одну ATA',
-        'ATA можна створити будь-ким — не потрібен власник wallet sign'нути',
+        'ATA можна створити будь-ким — не потрібен власник wallet signнути',
         'Один wallet може мати кілька ATAs для різних tokens'
       ],
       correct: [0, 1, 2, 3],
