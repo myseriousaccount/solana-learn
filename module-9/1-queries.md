@@ -50,6 +50,42 @@ solana inflation-rate                # current inflation %
 solana supply                        # total + circulating supply
 ```
 
+### Cluster version distribution
+
+Після `solana validators` output у кінці є секція "Stake By Version" — breakdown скільки validators (stake-weighted) на кожній версії:
+
+```bash
+solana validators | tail -30
+# Або specifically version section:
+solana validators | grep -A 20 "Stake By Version"
+```
+
+Output:
+
+```
+Stake By Version:
+0.4.4    -     16 current validators ( 20.03%)
+0.4.3    -     50 current validators ( 62.50%)
+0.4.2    -     14 current validators ( 17.47%)
+```
+
+% це stake-weighted count. Use cases:
+- Verify твоя нова version visible cluster-wide після upgrade
+- Track adoption нових SIMDs / consensus changes
+- Detect single-version risk
+
+JSON для parsing:
+
+```bash
+solana validators --output json | jq '.stakeByVersion'
+```
+
+Specific validator's version:
+
+```bash
+solana validators | grep <IDENTITY_PUBKEY> | awk '{print $9}'
+```
+
 ## Account queries
 
 ```bash
