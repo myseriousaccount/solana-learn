@@ -1,0 +1,207 @@
+<script setup>
+const quiz = {
+  id: 'm0-final',
+  title: '⭐ Module 0 — Final quiz',
+  intro: '15 питань що перевіряють синтез усіх 8 секцій. Якщо < 80% правильно — повернись у секції з найбільшими прорахунками.',
+  questions: [
+    {
+      type: 'mcq',
+      q: 'Чому release build agave займає 25-30 хвилин а не 5? (обери всі правильні)',
+      options: [
+        'Agave має ~600 dependencies, кожна компілюється окремо',
+        'Release optimization (LTO, inlining) повільніша за debug compile',
+        'Кожен build re-downloads dependencies з мережі',
+        'Linker з\'єднує величезну кількість object files у фінальний binary'
+      ],
+      correct: [0, 1, 3],
+      explanation: 'Release build повільний бо: (1) ~600 крейтів × release optimization, (2) LTO робить cross-crate optimization у linker stage. Network — тільки на першому build (потім cached). Module 0.1 + 0.3.'
+    },
+    {
+      type: 'compare',
+      q: 'У чому ключова різниця між cargo build і cargo install?',
+      ideal: 'cargo build компілить у target/ директорію поточного repo — binary залишається там. cargo install компілить АБО з crates.io АБО з --path, і копіює готовий binary у persistent location (~/.cargo/bin/ за дефолтом або --root). Build для development/testing, install для глобального використання як CLI tool. cargo install default = release, cargo build default = debug.',
+      explanation: 'Ключове: build залишає у target/, install копіює у persistent dir. Default modes теж різні. Module 0.3.'
+    },
+    {
+      type: 'command',
+      q: 'Як відкинути локальні зміни в одному файлі (наприклад src/main.rs)?',
+      accepts: [
+        'git checkout -- src/main.rs',
+        'git restore src/main.rs',
+        'git checkout src/main.rs'
+      ],
+      ideal: 'git checkout -- src/main.rs',
+      explanation: 'git checkout -- <file> класичний синтаксис, modern equivalent: git restore. Module 0.2.'
+    },
+    {
+      type: 'diagnose',
+      q: 'systemctl status solana показує Active: failed (Result: signal). Process exited (status=9/KILL). Найвірогідніша причина?',
+      options: [
+        'OOM killer вбив validator process — недостатньо RAM',
+        'У ExecStart typo, validator одразу exited',
+        'Hardware failure',
+        'Validator потребує root permissions'
+      ],
+      correct: [0],
+      explanation: 'status=9/KILL = SIGKILL = OOM killer (kernel вбиває коли немає RAM). status=1/FAILURE або status=2 — щось інше (exit code від programu). Module 0.4.'
+    },
+    {
+      type: 'mcq',
+      q: 'Що з цього є daemon? (обери всі)',
+      options: [
+        'agave-validator який запущений через systemctl',
+        'cat /etc/passwd запущений у твоєму terminal',
+        'tmux server',
+        'sshd (SSH server) на сервері'
+      ],
+      correct: [0, 2, 3],
+      explanation: 'Daemon = background process відв\'язаний від terminal, керується init системою. agave-validator через systemd, tmux server (теж detached), sshd. cat у terminal — foreground process. Module 0.4.'
+    },
+    {
+      type: 'scenario',
+      q: 'Ти на сервері WNX0016778 як devops_ssh. Хочеш видалити content /home/solana/solana/ledger/. Які 2 правильні підходи (з urахуванням permission footgun)?',
+      ideal: '1. sudo bash -c "rm -rf /home/solana/solana/ledger/*" — bash запускається як root, експандить * правильно.\n\n2. sudo find /home/solana/solana/ledger -mindepth 1 -delete — find працює як root, traverses папку, видаляє content.\n\nЧому НЕ працює просто sudo rm -rf /home/solana/solana/ledger/* — shell expand * ПЕРЕД sudo, а devops_ssh не може читати папку (mode 750), тому * лишається literal, нічого не видаляється.',
+      explanation: 'Module 0.5 — глобальна expansion timing проблема. Якщо ти описала обидва підходи + чому raw command не працює — повна відповідь.'
+    },
+    {
+      type: 'compare',
+      q: 'У чому різниця між symlink і hardlink?',
+      ideal: 'Symlink — це окремий файл який містить ШЛЯХ до іншого файлу. Hardlink — це АЛЬТЕРНАТИВНЕ ІМ\'Я для того ж inode (тих же даних на диску).\n\nKey differences:\n1. Symlink може перетинати filesystems, hardlink ні (один inode = один fs)\n2. Symlink працює для папок, hardlink зазвичай ні\n3. Якщо target symlink видалити — symlink стає broken (вказує в нікуди). Hardlink не ламається, бо data існує доки є хоч один hardlink на inode\n4. ln -s = symlink, ln (без -s) = hardlink',
+      explanation: 'Ключове: symlink = file with path; hardlink = alternative name for same inode. Module 0.5.'
+    },
+    {
+      type: 'command',
+      q: 'Як подивитись на що вказує symlink /home/solana/ag?',
+      accepts: [
+        'readlink /home/solana/ag',
+        'sudo readlink /home/solana/ag',
+        'ls -la /home/solana/ag',
+        'sudo ls -la /home/solana/ag',
+        'readlink -f /home/solana/ag'
+      ],
+      ideal: 'sudo readlink /home/solana/ag',
+      explanation: 'sudo бо /home/solana має mode 750. readlink показує target. ls -la теж показує через -> notation. Module 0.5.'
+    },
+    {
+      type: 'diagnose',
+      q: 'Ти запускаєш sudo doublezero-solana ... і отримуєш "command not found". Без sudo команда працює. Що з цього є вірогідною причиною?',
+      options: [
+        'sudo resets PATH за замовчуванням, doublezero-solana не у sudo PATH',
+        'sudo вимагає absolute path',
+        'doublezero-solana не дозволено для root',
+        'Binary потребує middleware'
+      ],
+      correct: [0],
+      explanation: 'sudo по default resets PATH до secure_path. Tools у ~/.cargo/bin/ або не у secure_path локаціях — sudo не знаходить. Fix: sudo env "PATH=$PATH" command. Module 0.6.'
+    },
+    {
+      type: 'mcq',
+      q: 'Які квоти роблять variable expansion у bash? (обери всі правильні)',
+      options: [
+        'Без лапок (raw)',
+        'Double quotes "..."',
+        'Single quotes \'...\'',
+        'Backticks `...`'
+      ],
+      correct: [0, 1],
+      explanation: 'Без лапок і double quotes роблять variable expansion ($VAR → значення). Single quotes — НЕ роблять (literal). Backticks — command substitution, окрема річ. Module 0.6.'
+    },
+    {
+      type: 'scenario',
+      q: 'Ти запустила agave build у tmux session "build" (25 хв процес). Через 10 хв пропав інтернет. Опиши що відбувається з build, як reconnect.',
+      ideal: 'Build продовжує працювати у tmux session навіть після SSH disconnect. tmux server (background daemon) залишається живим коли твій SSH client вмирає. Process tree: tmux server → bash → build process — всі живі.\n\nReconnect:\n1. Дочекатись інтернету і SSH-итись назад: ssh devops_ssh@WNX0016778\n2. Подивитись чи сесія жива: tmux ls — має показати "build: 1 windows..."\n3. Reattach: tmux attach -t build\n4. Побачиш поточний стан build (можливо вже завершився)\n\nЯкщо БЕЗ tmux — SSH disconnect → SIGHUP вб\'є bash + build process. 10 хвилин компіляції втрачені.',
+      explanation: 'Ключове: tmux server detached від SSH connection, виживає disconnect. Якщо описала reconnect через ssh + tmux attach — повна відповідь. Module 0.7.'
+    },
+    {
+      type: 'command',
+      q: 'Як detach з tmux session не вбиваючи її? (вкажи keyboard combo)',
+      accepts: [
+        'Ctrl+B D',
+        'Ctrl+B d',
+        'Ctrl-B D',
+        'Ctrl-B d',
+        'C-b d',
+        'C-b D'
+      ],
+      ideal: 'Ctrl+B D',
+      explanation: 'Ctrl+B (default tmux prefix) потім D (detach). Module 0.7.'
+    },
+    {
+      type: 'explain',
+      q: 'Поясни своїми словами як SSH key-based authentication працює. Чому це безпечніше за password.',
+      ideal: 'SSH key-based використовує asymmetric crypto. Пара ключів: private (на ноутбуці, ~/.ssh/id_ed25519) + public (копія на сервері у ~/.ssh/authorized_keys).\n\nFlow:\n1. SSH client connects до сервера\n2. Сервер дивиться authorized_keys, знаходить твій public key\n3. Сервер генерує random challenge, шифрує його твоїм public key\n4. Передає encrypted challenge тобі\n5. Твій private key decrypts його — тільки private key може\n6. Sends decrypted answer назад\n7. Server verifies — auth pass\n\nЧому безпечніше за password:\n- Private key ніколи не передається мережею\n- Brute-force impossible (256+ bits vs 8-char password)\n- Можна protect ще passphrase (двофакторний доступ)',
+      explanation: 'Ключове: asymmetric pair, private never leaves laptop, challenge-response. Module 0.8.'
+    },
+    {
+      type: 'command',
+      q: 'Як скопіювати файл backup.json з /tmp/ на сервері eta на твій ~/Desktop/ ноутбука?',
+      accepts: [
+        'scp devops_ssh@eta:/tmp/backup.json ~/Desktop/',
+        'scp devops_ssh@eta:/tmp/backup.json /Users/monkeynest/Desktop/',
+        'scp devops_ssh@eta:/tmp/backup.json ~/Desktop'
+      ],
+      ideal: 'scp devops_ssh@eta:/tmp/backup.json ~/Desktop/',
+      explanation: 'scp <remote-source> <local-dest>. Якщо eta у ~/.ssh/config — short alias OK. ~ expandsо до твого home. Module 0.8.'
+    },
+    {
+      type: 'order',
+      q: 'Постав у правильному порядку steps для agave upgrade build (Випадок B з 0.1 — build from source на mainnet):',
+      items: [
+        'cargo build --release --bin agave-validator',
+        'sudo cp target/release/agave-validator ~/.local/share/solana/install/active_release/bin/',
+        'git fetch --tags',
+        'cd ~/agave',
+        'git checkout v2.1.0',
+        'sudo systemctl restart solana'
+      ],
+      correctOrder: [3, 2, 4, 0, 1, 5],
+      explanation: 'cd → fetch → checkout → build → copy → restart. Spočátku ентер репо, потім git операції, тоді cargo build, копія binary у agave-install layout, restart service. Module 0.1 Випадок B.'
+    },
+    {
+      type: 'mcq',
+      q: 'WSL2 для Solana operator? (обери всі правильні)',
+      options: [
+        'Повний Linux kernel у Hyper-V VM, full Solana compatibility',
+        'Replaces WSL1 (which had partial compat)',
+        'OK для dev, CLI, SSH; не для production validator',
+        'Сolana ledger варто розмістити у /mnt/c/ для backup'
+      ],
+      correct: [0, 1, 2],
+      explanation: 'WSL2 — full Linux, для dev OK. Production validator на bare metal. Ledger у /mnt/c/ — slow Windows mount, never! Module 0.9.'
+    }
+  ]
+}
+</script>
+
+# ⭐ Module 0 — Final quiz
+
+> Цей quiz перевіряє чи ти зрозуміла всі 8 секцій Module 0. **15 питань, ~30 хвилин.** Усі типи: MCQ, command writing, scenario, diagnose, compare, explain, order.
+
+## Як проходити
+
+- **Чесно**: не підглядай у секції під час quiz, інакше нема сенсу
+- **Self-grade чесно**: для explain/scenario/compare питань відповідай і **порівнюй з ідеальною** перш ніж тиснути self-grade button
+- **Цільте на 80%+ correct**: < 80% → повернись у секції з прорахунками
+- **Progress зберігається** у localStorage: можеш закрити браузер, повернутись завтра
+
+## Quiz
+
+<Quiz :data="quiz" />
+
+## Результат
+
+Після Submit:
+
+| Результат | Що далі |
+|---|---|
+| **13-15 / 15** (87-100%) | Готова до Module 1 (Solana foundations) |
+| **10-12 / 15** (67-83%) | Повторити секції з помилками, потім re-take |
+| **< 10 / 15** | Прочитати модуль ще раз, потім re-take quiz через тиждень |
+
+## Що далі — Module 1
+
+[Module 1: Solana foundations](/module-1/) — починаємо з Solana-специфічних концептів: slot, epoch, leader, cluster, account model, transaction lifecycle. Будуємось на fundamentals з Module 0.
+
+---
+
+**Попередньо:** [← 8. SSH](/module-0/8-ssh) | **Наступне:** [Module 1: Solana foundations →](/module-1/) (🚧 не написано)
