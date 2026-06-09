@@ -37,3 +37,12 @@ test-output/
 
 # Misc
 .cache/
+
+# Discord screenshots (private content)
+*.jpg
+*.jpeg
+*.png
+*.gif
+
+# Internal research notes
+research/

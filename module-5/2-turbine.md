@@ -146,6 +146,11 @@ sudo iftop -i eth0 2>/dev/null || sudo nethogs eth0
 
 - [Anza: Turbine](https://docs.anza.xyz/consensus/turbine-block-propagation)
 
+## Related modules
+
+- [**Module 11.3: Rotor**](/module-11/3-rotor-propagation) — Alpenglow's Turbine replacement. Single-hop relay model, simpler shred format, multicast-compatible
+- [Module 10.3: DoubleZero](/module-10/3-doublezero) — dedicated low-latency network, integrates з Rotor для multicast efficiency
+
 ---
 
 **Попередньо:** [← 1. Gossip](/module-5/1-gossip) | **Наступне:** [3. Shreds →](/module-5/3-shreds)

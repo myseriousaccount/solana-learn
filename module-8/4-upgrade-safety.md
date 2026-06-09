@@ -188,6 +188,12 @@ Helps debug regressions, identify problematic versions.
 
 [`Upgrade`](/glossary#u), [`Rollback`](/glossary#r), [`Symlink swap`](/glossary#s), [`wait-for-restart-window`](/glossary#w)
 
+## Related modules
+
+- [**Module 11.6: Failover patterns**](/module-11/6-failover-patterns) — coverage 5 industry-standard failover approaches (Anza manual, Pumpkin's Pool, Pumpkin's keyless, SVS automated, SOL-Strategies QUIC) — different from single-server upgrade safety pattern
+- [Module 11.5: Identity management](/module-11/5-identity-management) — set-identity command, symlink pattern, hot-swap procedure
+- [Module 8.1: Keypair hygiene](/module-8/1-keypair-security) — backup pattern також applies to vote_history.bin under Alpenglow
+
 ---
 
 **Попередньо:** [← 3. Monitoring](/module-8/3-monitoring) | **Наступне:** [⭐ Final quiz →](/module-8/final-quiz)

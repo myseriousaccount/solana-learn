@@ -10,6 +10,8 @@
 
 **Account lock** — Sealevel scheduler tracks which TXs touch which accounts. Writable accounts exclusive, read-only shared. [Module 6.4](/module-6/4-stages)
 
+**Accelerate** — annual Solana conference де Alpenglow вперше unveiled (May 2024). [Module 11.1](/module-11/1-context)
+
 **Activation epoch** — epoch коли feature flag активується. До неї old behavior, після — new. [Module 4.7](/module-4/7-recent-simds)
 
 **Active stake** — SOL delegated до validators які зараз голосують (non-delinquent). [Module 1.5](/module-1/5-validator-status)
@@ -18,7 +20,17 @@
 
 **Alertmanager** — Prometheus component для notifications. Maps alerts до channels (Slack, Telegram, PagerDuty). [Module 8.8](/module-8/8-monitoring-stack)
 
-**Alpenglow** — proposed next-gen Solana consensus protocol (SIMD-0326). BLS aggregated signatures, faster finality. Currently тестується community cluster. [Module 4.4](/module-4/4-alpenglow)
+**Alpenglow** — proposed next-gen Solana consensus protocol (SIMD-0326). BLS aggregated signatures, faster finality. Currently тестується community cluster. [Module 4.4](/module-4/4-alpenglow) / [Module 11](/module-11/)
+
+**Alpenglow community cluster** — testing cluster для Alpenglow protocol. ~90 validators, ~4.4M SOL stake. Test tokens, NOT mainnet value. [Module 11.1](/module-11/1-context)
+
+**Alpenglow Explorer** — public dashboard для community cluster validators. URL: ag.validblocks.com/validators. [Module 11.1](/module-11/1-context)
+
+**Ancestor finalization** — Alpenglow property: коли block at slot N finalizes, all ancestor blocks automatically finalize. [Module 11.2](/module-11/2-votor-consensus)
+
+**AshwinSekar/solana fork** — primary repository для Alpenglow implementation. Active branch: alpenglow-v0.4. [Module 11.1](/module-11/1-context)
+
+**Authorized voter (constant)** — у failover patterns, --authorized-voter flag permanently references staked keypair, identity swaps independently. [Module 11.5](/module-11/5-identity-management)
 
 **Anchor** — popular Rust framework для writing Solana smart contracts. [Module 2.2](/module-2/2-programs)
 
@@ -58,7 +70,13 @@
 
 **Blockhash expiry** — TX has ~150 slots (~60 sec) щоб бути included. [Module 3.4](/module-3/4-lifecycle)
 
+**BLS pubkey registration** — process через який validators register BLS pubkey у vote account per SIMD-0387. Required для Alpenglow consensus participation. [Module 11.7](/module-11/7-joining-cluster)
+
 **BLS signature** — Boneh-Lynn-Shacham signature scheme. Дозволяє aggregation (many signers → one signature). Alpenglow uses. [Module 4.4](/module-4/4-alpenglow)
+
+**Bleeding edge software** — frequent unstable releases typical для research clusters (Alpenglow community). [Module 11.9](/module-11/9-cluster-operations)
+
+**Block-level replication** — failover strategy storing validator data via block-level mirroring (DRBD, Ceph). Lowest latency, highest complexity. [Module 11.4](/module-11/4-vote-history)
 
 **Bootstrap validator** — initial validator(s) у genesis. Define cluster's starting point. [Module 1.6](/module-1/6-genesis)
 
@@ -87,6 +105,16 @@
 **CARGO_INSTALL_ROOT** — env variable specifying default install location. [Module 0.3](/module-0/3-cargo)
 
 **Catch-up** — validator's process recovering missed slots/blocks через repair protocol. [Module 5.4](/module-5/4-repair)
+
+**Certificate (Alpenglow)** — cryptographic proof aggregating BLS signatures від multiple validators showing votes reached threshold. Anchored on-chain. [Module 11.2](/module-11/2-votor-consensus)
+
+**Cluster restart procedure** — coordinated process для re-launching cluster з new genesis (often after halt or protocol upgrade). [Module 11.9](/module-11/9-cluster-operations)
+
+**Community cluster cadence** — frequent restarts + bleeding-edge releases typical для research clusters (e.g., Alpenglow community). [Module 11.9](/module-11/9-cluster-operations)
+
+**Contributing back** — operator participation у community: bug reports, testing, documentation. Builds reputation з Anza. [Module 11.9](/module-11/9-cluster-operations)
+
+**Correlated failure** — multiple validators failing same way simultaneously (same software bug, same datacenter outage). Quadratic slashing penalizes. [Module 11.8](/module-11/8-slashing)
 
 **Checkout (git)** — switch між commits/branches/tags. [Module 0.2](/module-0/2-git)
 
@@ -166,6 +194,10 @@
 
 **Double-vote** — see [Double-sign]. Specifically vote-level double signing. [Module 4.2](/module-4/2-tower-bft)
 
+**--do-not-require-vote-history** — Alpenglow agave flag що дозволяє validator start без vote_history.bin file. Risky для active staked identity (may double-vote). [Module 11.4](/module-11/4-vote-history)
+
+**Dry-run failover** — testing failover procedure без committing actual identity changes. Used by SOL-Strategies tool by default. [Module 11.6](/module-11/6-failover-patterns)
+
 **DPDK** — Data Plane Development Kit, kernel-bypass networking framework. Used by Firedancer + Fiber. [Module 5.5](/module-5/5-quic-fiber)
 
 **Durable nonce** — alternative до recent_blockhash для TX expiry. Long-lived. [Module 3.6](/module-3/6-durable-nonces)
@@ -194,7 +226,13 @@
 
 **FEC set** — group of shreds (typically 32 data + 32 coding) for Forward Error Correction. [Module 5.3](/module-5/3-shreds)
 
+**Failover rollback** — failover tools capability до undo identity swap якщо post-swap verification fails. [Module 11.6](/module-11/6-failover-patterns)
+
+**Fast-Finalization** — Alpenglow path: ≥80% notarize votes у round 1 → instant finalization (~100ms). [Module 11.2](/module-11/2-votor-consensus)
+
 **Fee burn** — 50% of TX fees permanently destroyed (deflationary). [Module 3.3](/module-3/3-fees)
+
+**Finalize vote** — Alpenglow round 2 vote affirming slot ready for finality. [Module 11.2](/module-11/2-votor-consensus)
 
 **Fee payer** — first signer у TX. Платить fees. [Module 3.1](/module-3/1-tx-anatomy)
 
@@ -258,6 +296,8 @@
 
 **Hot key** — key used continuously by software, on server. [Module 8.1](/module-8/1-keypair-security)
 
+**Hot-swap** — runtime identity change без validator restart. Sub-second swap між active+standby. [Module 11.5](/module-11/5-identity-management)
+
 **Hugepages** — large memory pages (2MB/1GB) для efficient buffering. Used by Firedancer + Fiber. [Module 5.5](/module-5/5-quic-fiber)
 
 **Hyper-V** — Microsoft virtualization platform. Backs WSL2. [Module 0.9](/module-0/9-wsl-windows)
@@ -266,11 +306,13 @@
 
 **Identity rotation** — replacing validator identity key. Via `agave-validator set-identity`. Use carefully avoid double-sign. [Module 4.6](/module-4/6-slashing-deep)
 
+**Identity symlink pattern** — standard hot-swap pattern. --identity flag points до symlink. Symlink target switches між staked + unstaked. [Module 11.5](/module-11/5-identity-management)
+
 **Incident response** — structured handling of operational alerts. Ack → assess → mitigate → investigate → document. [Module 8.9](/module-8/9-oncall-runbooks)
 
 **Incremental snapshot** — delta from last full snapshot. Small (~1 GB), created every ~100 slots. [Module 10.2](/module-10/2-snapshots)
 
-**In-genesis** — validators included у cluster's initial genesis (vs out-of-genesis joining later). [Module 1.6](/module-1/6-genesis)
+**In-genesis** — validators included у cluster's initial genesis (vs out-of-genesis joining later). [Module 1.6](/module-1/6-genesis) / [Module 11.7](/module-11/7-joining-cluster)
 
 **Inflation pool** — нові SOL minted per epoch, distributed до validators proportional до credits. [Module 7.2](/module-7/2-rewards)
 
@@ -304,11 +346,17 @@
 
 **Jump Crypto** — trading firm creating Firedancer. [Module 6.5](/module-6/5-firedancer)
 
+## J
+
+**Junk identity** — temporary unstaked keypair used by standby validator (cannot vote since no stake). [Module 11.5](/module-11/5-identity-management)
+
 ## K
 
 **Kernel bypass** — networking technique routing packets directly до user-space (skip kernel). Fiber + Firedancer use. [Module 5.5](/module-5/5-quic-fiber)
 
 **Key rotation** — periodic replacement keys. [Module 8.2](/module-8/2-backups)
+
+**Keyless operation** — failover pattern де staked identity NEVER stored on validator. Authorized voter set remotely via SSH. Maximum security. [Module 11.6](/module-11/6-failover-patterns)
 
 ## L
 
@@ -356,6 +404,10 @@
 
 **Multicast** — sending data до multiple recipients. Turbine uses tree multicast. [Module 5.2](/module-5/2-turbine)
 
+**Multicast (network)** — sending data до multiple recipients efficiently. Rotor compatible з multicast (DoubleZero). [Module 11.3](/module-11/3-rotor-propagation)
+
+**Multiple Concurrent Leaders (MCL)** — future Solana protocol enhancement що дозволить кільком leaders одночасно. Compatible з Alpenglow architecture. [Module 11.1](/module-11/1-context)
+
 **Multisig** — wallet вимагає N-of-M signatures. Squads = standard Solana implementation. [Module 8.1](/module-8/1-keypair-security)
 
 ## N
@@ -365,6 +417,10 @@
 **Network partition** — cluster splits into halves через network failure. [Module 4.5](/module-4/5-forks)
 
 **N-of-M** — multisig threshold notation. 3-of-5 = need 3 signatures з 5 keys. [Module 8.7](/module-8/7-treasury-multisig)
+
+**Notarize vote** — Alpenglow round 1 vote: "I observed block X valid у slot N". [Module 11.2](/module-11/2-votor-consensus)
+
+**Notar-fallback vote** — Alpenglow round 2 fallback vote when round 1 inconclusive. [Module 11.2](/module-11/2-votor-consensus)
 
 **node_exporter** — Prometheus exporter для Linux system metrics (CPU, RAM, disk, network). [Module 8.8](/module-8/8-monitoring-stack)
 
@@ -382,6 +438,10 @@
 
 **Object file** — intermediate compile output (`.o` файли). [Module 0.1](/module-0/1-build)
 
+**Observational layer (slashing)** — SIMD-0204 initial phase: violation evidence recorded on-chain without auto-destroying stake. Transition phase. [Module 11.8](/module-11/8-slashing)
+
+**Off-chain voting** — Alpenglow design: votes propagate peer-to-peer (BLS messages) instead of as on-chain TXs. [Module 11.4](/module-11/4-vote-history)
+
 **Off-curve point** — pubkey not on ed25519 curve. PDAs are off-curve (no private key exists). [Module 2.5](/module-2/5-pda-deep)
 
 **Offline signing** — sign TX без internet connection (cold wallet pattern). Use durable nonces. [Module 3.6](/module-3/6-durable-nonces)
@@ -390,7 +450,7 @@
 
 **Orphaned block** — block on losing fork після resolution. TXs reverted. [Module 4.5](/module-4/5-forks)
 
-**Out-of-genesis** — validators joining cluster ПІСЛЯ initial genesis (LumLabs Alpenglow case). [Module 1.6](/module-1/6-genesis)
+**Out-of-genesis** — validators joining cluster ПІСЛЯ initial genesis. [Module 1.6](/module-1/6-genesis) / [Module 11.7](/module-11/7-joining-cluster)
 
 **Owner (account)** — program який володіє правом modify account state. **Не** wallet owner. [Module 2.1](/module-2/1-account-basics)
 
@@ -399,6 +459,16 @@
 **Pane (tmux)** — split window section. [Module 0.7](/module-0/7-tmux)
 
 **Path** — file system location. Absolute (`/home/...`) або relative. [Module 0.5](/module-0/5-filesystem)
+
+**Pattern A (Anza)** — manual failover pattern per official Anza guide. 10-30s swap. Best для solo operators. [Module 11.6](/module-11/6-failover-patterns)
+
+**Pattern B (Pumpkin)** — scripted manual failover з community-curated conventions. 5-15s swap. [Module 11.6](/module-11/6-failover-patterns)
+
+**Pattern D (SVS)** — automated dashboard tool by huiskylabs. 1-3s swap via SSH connection pooling. [Module 11.6](/module-11/6-failover-patterns)
+
+**Pattern E (SOL-Strategies)** — QUIC peer-to-peer failover tool. <5s swap, dry-run mode. [Module 11.6](/module-11/6-failover-patterns)
+
+**Peer-to-peer coordination** — failover pattern де active+passive validators talk directly (QUIC) без external orchestrator. [Module 11.6](/module-11/6-failover-patterns)
 
 **PATH (env var)** — colon-separated list of directories де shell searches для executables. [Module 0.6](/module-0/6-shell)
 
@@ -430,6 +500,10 @@
 
 **Prefix key (tmux)** — combo activating tmux command mode. Default: Ctrl+B. [Module 0.7](/module-0/7-tmux)
 
+**Pre-flight check** — verification steps перед cluster operation (delinquent %, version, backups). [Module 11.9](/module-11/9-cluster-operations)
+
+**Proof of Possession (PoP)** — cryptographic proof binding BLS pubkey до specific vote account. 96-byte signature. Prevents rogue key attacks. [Module 11.7](/module-11/7-joining-cluster)
+
 **Price feed** — oracle data feed для specific market price. [Module 10.7](/module-10/7-oracles)
 
 **Priority fee** — optional pay-per-CU для leader prioritization у congestion. [Module 3.3](/module-3/3-fees)
@@ -460,6 +534,8 @@
 
 ## Q
 
+**Quadratic penalty** — proposed slashing formula: penalty scales quadratically з percent stake violating. Incentivizes diverse infrastructure. [Module 11.8](/module-11/8-slashing)
+
 **QUIC** — modern transport protocol (UDP-based з reliability). Solana TPU uses. [Module 5.5](/module-5/5-quic-fiber)
 
 ## R
@@ -471,6 +547,16 @@
 **Redirect** — shell I/O redirection: `>` (stdout), `2>&1` (stderr → stdout). [Module 0.6](/module-0/6-shell)
 
 **Reed-Solomon** — erasure coding algorithm. Solana shreds use. [Module 5.3](/module-5/3-shreds)
+
+**Relay node** — у Rotor, validators selected to receive shreds від leader and broadcast до cluster. Stake-weighted selection. [Module 11.3](/module-11/3-rotor-propagation)
+
+**--require-tower** — Tower BFT set-identity flag вимагаючи tower.bin file present перед identity change. Safety check. [Module 11.5](/module-11/5-identity-management)
+
+**--require-vote-history** — Alpenglow analog of --require-tower. Default behavior: refuses set-identity без vote_history.bin. [Module 11.5](/module-11/5-identity-management)
+
+**Rotor** — Alpenglow's block propagation protocol replacing Turbine. Single-hop relay model. [Module 11.3](/module-11/3-rotor-propagation)
+
+**rsync sync strategy** — backup strategy using rsync до continuously sync vote_history.bin до standby server. [Module 11.4](/module-11/4-vote-history)
 
 **Regional BE** — geographically-distributed Jito Block Engines (Frankfurt, NY, Tokyo, etc.). [Module 7.5](/module-7/5-jito-block-engine)
 
@@ -508,6 +594,10 @@
 
 **Sealevel** — Solana runtime для parallel TX execution. [Module 3.2](/module-3/2-instructions)
 
+**set-identity command** — agave-validator subcommand для runtime identity change. Used у hot-swap procedures. [Module 11.5](/module-11/5-identity-management)
+
+**Shared storage strategy** — backup strategy: validator writes vote_history.bin до network storage. Zero sync delay, storage SPOF risk. [Module 11.4](/module-11/4-vote-history)
+
 **Seeds (PDA)** — input bytes для PDA derivation. Determines uniqueness. [Module 2.5](/module-2/5-pda-deep)
 
 **Self-stake** — validator operator stakes own SOL до own validator. [Module 7.1](/module-7/1-stake)
@@ -540,6 +630,22 @@
 
 **SIMD repo** — github.com/solana-foundation/solana-improvement-documents. Все SIMD proposals. [Module 4.7](/module-4/7-recent-simds)
 
+**SIMD-0180** — leader schedule keyed до vote account (foundation для slashing). [Module 11.8](/module-11/8-slashing)
+
+**SIMD-0185** — vote account v4 introducing BLS pubkey field. [Module 11.7](/module-11/7-joining-cluster)
+
+**SIMD-0204** — Slashing Program proposal. Observational layer first, eventually executional. [Module 11.8](/module-11/8-slashing)
+
+**SIMD-0326** — Alpenglow consensus proposal (Votor + finality model). [Module 11](/module-11/)
+
+**SIMD-0387** — BLS pubkey management у vote account. Required для Alpenglow voting. [Module 11.7](/module-11/7-joining-cluster)
+
+**Single-hop relay** — Rotor architecture: leader sends shreds direct to relays, relays broadcast to everyone. No tree layers. [Module 11.3](/module-11/3-rotor-propagation)
+
+**Skip vote** — Alpenglow round 1 vote: "I did not observe valid block у slot N (timeout)". [Module 11.2](/module-11/2-votor-consensus)
+
+**Skip-fallback vote** — Alpenglow round 2 fallback when round 1 inconclusive. [Module 11.2](/module-11/2-votor-consensus)
+
 **Skip rate** — % validator's leader slots що стали skipped. Health metric. Mainnet target < 5%. [Module 1.3](/module-1/3-leaders)
 
 **Skipped slot** — slot з 0 blocks produced. [Module 1.2](/module-1/2-slots-epochs)
@@ -547,6 +653,24 @@
 **Slashing** — penalty (stake reduction) для malicious behavior. [Module 4.2](/module-4/2-tower-bft)
 
 **Slashing condition** — protocol-defined violation triggering slashing. [Module 4.6](/module-4/6-slashing-deep)
+
+**Slashing cooldown** — proposed period after stake deactivation де stake remains slashable. Prevents arbitrage avoidance. [Module 11.8](/module-11/8-slashing)
+
+**Slashing insurance** — emerging products (Tenderize, etc.) що hedge validator slashing risk. [Module 11.8](/module-11/8-slashing)
+
+**Slashing program** — on-chain program receiving evidence of violations, verifying, recording. SIMD-0204. [Module 11.8](/module-11/8-slashing)
+
+**Slow-Finalization** — Alpenglow path: 60% notarize у round 1 + 60% finalize у round 2 → finalize (~150ms). [Module 11.2](/module-11/2-votor-consensus)
+
+**Smart Sampling** — paired з Rotor у proposal (SIMD-0385). Refinements для shred sampling efficiency. [Module 11.1](/module-11/1-context)
+
+**Snapshot backup strategy** — periodic copy of vote_history.bin via cron. Simple але gap risk. [Module 11.4](/module-11/4-vote-history)
+
+**Social punishment** — non-protocol enforcement of slashable behavior (SFDP removal, pool withdrawals, reputation damage). Pre-formal-slashing model. [Module 11.8](/module-11/8-slashing)
+
+**SSH connection pooling** — persistent SSH connections enabling instant command execution. Used by SVS для 1-3s hot swap. [Module 11.6](/module-11/6-failover-patterns)
+
+**Stake-weighted relay** — Rotor relay node selection algorithm. Higher stake → higher probability of selection. [Module 11.3](/module-11/3-rotor-propagation)
 
 **Slot** — 400ms time window. One leader per slot. [Module 1.2](/module-1/2-slots-epochs)
 
@@ -672,6 +796,8 @@
 
 **ulimits** — per-user resource limits (file descriptors, processes). Critical для validator. [Module 8.6](/module-8/6-kernel-tuning)
 
+**Unstaked identity** — temporary junk keypair used by standby validator. No stake associated. Cannot accidentally vote. [Module 11.5](/module-11/5-identity-management)
+
 **Unit file** — systemd service config. [Module 0.4](/module-0/4-processes)
 
 **Upgrade authority** — key able to redeploy BPF program code. Set to None = immutable. [Module 2.2](/module-2/2-programs)
@@ -687,6 +813,22 @@
 **Vault account** — Squads multisig PDA holding funds. [Module 8.7](/module-8/7-treasury-multisig)
 
 **V0 transaction** — Versioned transaction format (default since 2023). [Module 3.5](/module-3/5-versioned-tx-alts)
+
+**Vote account v4** — vote account format version including BLS pubkey field (per SIMD-0185). [Module 11.7](/module-11/7-joining-cluster)
+
+**vote_history.bin** — Alpenglow's local vote history file. Equivalent до Tower's tower.bin але stricter requirements. [Module 11.4](/module-11/4-vote-history)
+
+**Vote participation proof** — Alpenglow accountability mechanism: leader at slot N+8 includes vote aggregate from slot N. Non-voters get zero rewards. [Module 11.2](/module-11/2-votor-consensus)
+
+**Vote reconstruction** — Tower BFT ability to rebuild tower.bin state from on-chain vote TXs. NOT possible у Alpenglow (votes off-chain). [Module 11.4](/module-11/4-vote-history)
+
+**VoteHistory** — internal Rust struct у Alpenglow agave fork for vote history data. Persisted у vote_history.bin file. [Module 11.4](/module-11/4-vote-history)
+
+**Voter bitmap** — у Alpenglow certificates, bitmap showing які validators contributed votes. Used для accountability + rewards. [Module 11.2](/module-11/2-votor-consensus)
+
+**VoterWithBLS** — new VoteAuthorize instruction variant для registering BLS pubkey. SIMD-0387. [Module 11.7](/module-11/7-joining-cluster)
+
+**Votor** — Alpenglow's voting + finalization component. Replaces Tower BFT. Two-round voting з BLS aggregation. [Module 11.2](/module-11/2-votor-consensus)
 
 **Versioned transaction** — TX format supporting ALTs. V0 currently. [Module 3.5](/module-3/5-versioned-tx-alts)
 
@@ -720,6 +862,10 @@
 
 **zstd** — fast compression algorithm. Used для Solana snapshots. [Module 10.2](/module-10/2-snapshots)
 
+## Numbers / symbols
+
+**20+20 security model** — Alpenglow safety model: tolerates 20% byzantine + 20% crashed validators (40% combined fault tolerance). [Module 11.2](/module-11/2-votor-consensus)
+
 ---
 
-_~230 terms. Updates з each module/section addition._
+_~290 terms (з Module 11 expansion). Updates з each module/section addition._

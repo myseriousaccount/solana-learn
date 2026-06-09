@@ -133,6 +133,12 @@ solana create-vote-account ... --allow-unsafe-authorized-withdrawer
 
 [`Hot key`](/glossary#h), [`Cold key`](/glossary#c), [`Multisig`](/glossary#m), [`Squads`](/glossary#s), [`Withdrawer authority`](/glossary#w)
 
+## Related modules
+
+- [**Module 11.4: Vote history**](/module-11/4-vote-history) — vote_history.bin sync strategies (для Alpenglow) додаються до keypair backup discipline
+- [Module 11.5: Identity management](/module-11/5-identity-management) — junk identity pattern, unstaked identity для standby validators
+- [Module 8.2: Backups](/module-8/2-backups) — disaster recovery procedure expands keypair backup до cover vote_history under Alpenglow
+
 ---
 
 **Наступне:** [2. Backups →](/module-8/2-backups)

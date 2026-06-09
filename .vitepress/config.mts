@@ -208,6 +208,23 @@ export default defineConfig({
           { text: '⭐ Final quiz', link: '/module-10/final-quiz' },
         ],
       },
+      {
+        text: 'Module 11 — Alpenglow operations ⭐',
+        collapsed: true,
+        items: [
+          { text: 'Огляд модуля', link: '/module-11/' },
+          { text: '1. Context, governance, timeline', link: '/module-11/1-context' },
+          { text: '2. Votor — two-round voting', link: '/module-11/2-votor-consensus' },
+          { text: '3. Rotor — block propagation', link: '/module-11/3-rotor-propagation' },
+          { text: '4. Vote history & state ⚠️', link: '/module-11/4-vote-history' },
+          { text: '5. Identity management & hot-swap ⚠️', link: '/module-11/5-identity-management' },
+          { text: '6. Failover patterns (5 approaches) ⚠️', link: '/module-11/6-failover-patterns' },
+          { text: '7. Joining cluster + BLS keys (SIMD-0387)', link: '/module-11/7-joining-cluster' },
+          { text: '8. Slashing landscape', link: '/module-11/8-slashing' },
+          { text: '9. Cluster operations', link: '/module-11/9-cluster-operations' },
+          { text: '⭐ Final quiz', link: '/module-11/final-quiz' },
+        ],
+      },
       { text: 'Глосарій', link: '/glossary' },
     ],
 

@@ -42,6 +42,8 @@ const quiz = {
 
 > ⚠️ Цей модуль — **research / proposed protocol**. Як 2026 Alpenglow still pre-mainnet, тестується community cluster (твій). Specifics можуть змінитись перш ніж mainnet adoption.
 
+> 📚 **Deep dive available**: цей section дає overview. Для comprehensive Alpenglow operations coverage (Votor mechanics, Rotor, vote history, identity management, 5 failover patterns, slashing landscape) — see [Module 11: Alpenglow operations deep dive](/module-11/).
+
 ## TL;DR
 
 **Alpenglow** (SIMD-0326) — proposed next-generation Solana consensus protocol. Replaces Tower BFT з: **BLS aggregated signatures** для votes (less network overhead), **faster finality**, **lamport-based credits** (різна semantics ніж classical Tower BFT). Currently tested на community cluster — твій validator на WNX0016778.
@@ -237,6 +239,13 @@ sudo /home/solana/ag/bin/solana validators --url http://localhost:8899 | tail -2
 - [SIMD-0326: Alpenglow](https://github.com/solana-foundation/solana-improvement-documents/blob/main/proposals/0326-alpenglow.md) — proposal text
 - [Alpenglow Whitepaper](https://www.anza.xyz/blog/alpenglow-a-new-consensus-for-solana)
 - [Alpenglow Community Cluster Discord](https://discord.com/channels/ag-community-cluster) — current state, announcements
+
+## Related modules
+
+- [**Module 11: Alpenglow operations deep dive**](/module-11/) — comprehensive coverage including Votor consensus mechanics, Rotor block propagation, vote history management, identity hot-swap procedures, 5 failover patterns comparison, slashing landscape, cluster operations
+- [Module 4.6: Slashing deep](/module-4/6-slashing-deep) — slashing current state across Tower BFT + Alpenglow
+- [Module 4.7: Recent SIMDs](/module-4/7-recent-simds) — SIMD-0326 + related proposals tracking
+- [Module 10.4: Governance](/module-10/4-governance) — SIMD process, voting on Alpenglow
 
 ---
 

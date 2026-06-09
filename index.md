@@ -45,22 +45,21 @@ features:
 
 Progress зберігається у localStorage браузера — можна повернутись.
 
-## Status (з Variant B expansion)
+## Status
 
 | Модуль | Секцій | Status |
 |---|---|---|
-| 0. Fundamentals | 9 | ✅ Повний (+WSL/Windows) |
-| 1. Solana foundations | 6 | ✅ Повний (+Genesis ceremony) |
-| 2. Account model | 6 | ✅ Повний (+PDA deep, +Token-2022) |
-| 3. Transactions | 6 | ✅ Повний (+Versioned TX/ALTs, +Durable nonces) |
-| 4. Consensus ⭐ | 7 | ✅ Повний (+Slashing deep, +Recent SIMDs) |
-| 5. Networking | 5 | ✅ Повний (+QUIC/Fiber) |
-| 6. Validator internals | 5 | ✅ Повний (+Firedancer) |
-| 7. Stake & rewards | 6 | ✅ Повний (+Jito BE deep, +Stake split/merge) |
-| 8. Operations security | 9 | ✅ Повний (+Hardware, +Kernel tuning, +Multisig, +Monitoring stack, +Runbooks) |
-| 9. CLI deep dive | 6 | ✅ Повний (+Feature status, +Benchmarking) |
-| 10. Special topics | 7 | ✅ Повний (+Snapshot mirror, +Compression NFTs, +Oracles) |
+| 0. Fundamentals | 9 | ✅ Повний |
+| 1. Solana foundations | 6 | ✅ Повний |
+| 2. Account model | 6 | ✅ Повний |
+| 3. Transactions | 6 | ✅ Повний |
+| 4. Consensus | 7 | ✅ Повний |
+| 5. Networking | 5 | ✅ Повний |
+| 6. Validator internals | 5 | ✅ Повний |
+| 7. Stake & rewards | 6 | ✅ Повний |
+| 8. Operations security | 9 | ✅ Повний |
+| 9. CLI deep dive | 6 | ✅ Повний |
+| 10. Special topics | 7 | ✅ Повний |
+| 11. Alpenglow operations ⭐ | 9 | ✅ Повний (consensus + failover deep) |
 
-**🎓 Усі 11 модулів. 72 sections total. ~70 mini-quizzes + 11 final quizzes. ~150-term глосарій.**
-
-**Coverage:** ~95% breadth, ~90% depth of Anza docs equivalent + operational practical specifics.
+**🎓 12 modules. 81 sections total. ~80 mini-quizzes + 12 final quizzes. Comprehensive Alpenglow deep dive з 5 failover patterns.**

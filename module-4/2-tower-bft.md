@@ -236,6 +236,11 @@ sudo /home/solana/ag/bin/solana validators --url http://localhost:8899 | head -1
 - [Solana Whitepaper](https://solana.com/solana-whitepaper.pdf)
 - [Helius: Tower BFT Explained](https://www.helius.dev/blog/solana-consensus-protocols)
 
+## Related modules
+
+- [Module 4.4: Alpenglow overview](/module-4/4-alpenglow) — Tower BFT replacement proposal
+- [**Module 11.2: Votor consensus deep**](/module-11/2-votor-consensus) — Alpenglow's voting mechanism, direct comparison з Tower BFT lockout model
+
 ---
 
 **Попередньо:** [← 1. PoH](/module-4/1-poh) | **Наступне:** [3. Votes, credits, finality →](/module-4/3-votes-credits)
